@@ -32,15 +32,16 @@ def create_app(config=None):
     if config:
         app.config.update(config)
 
-    # Настройка CORS - максимально простая и надёжная
-    cors_origins = os.getenv("CORS_ORIGINS", "*")
+    # Настройка CORS — разрешаем запросы от Vercel-фронтенда к /api/* маршрутам
+    cors_origins = os.getenv(
+        "CORS_ORIGINS", "https://crm-car-wash-api.vercel.app"
+    )
     origins_list = [origin.strip() for origin in cors_origins.split(",")]
-    
-    # Используем максимально разрешающую конфигурацию
+
     CORS(
         app,
         resources={
-            r"/*": {
+            r"/api/*": {
                 "origins": origins_list,
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": ["Content-Type", "Authorization"],
