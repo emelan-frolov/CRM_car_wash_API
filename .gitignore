@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+venv/
+.env
+
+# Node
+node_modules/
+build/
+.env.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exports
+CRM_car_wash_API/backend/exports/*.xlsx
+CRM_car_wash_API/backend/exports/_jobs.json
+
+# Kiro
+.kiro/
