@@ -32,25 +32,23 @@ def create_app(config=None):
     if config:
         app.config.update(config)
 
-    # Настройка CORS - упрощённая для надёжности
+    # Настройка CORS - максимально простая и надёжная
     cors_origins = os.getenv("CORS_ORIGINS", "*")
-    if cors_origins == "*":
-        # Разрешаем всё для разработки
-        CORS(app)
-    else:
-        # Убираем пробелы и разбиваем по запятой
-        origins_list = [origin.strip() for origin in cors_origins.split(",")]
-        CORS(
-            app,
-            resources={
-                r"/*": {  # Исправлено: /* вместо /api/* (правильное регулярное выражение)
-                    "origins": origins_list,
-                    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                    "allow_headers": ["Content-Type", "Authorization"],
-                    "expose_headers": ["Content-Disposition"],
-                }
-            },
-        )
+    origins_list = [origin.strip() for origin in cors_origins.split(",")]
+    
+    # Используем максимально разрешающую конфигурацию
+    CORS(
+        app,
+        resources={
+            r"/*": {
+                "origins": origins_list,
+                "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                "allow_headers": ["Content-Type", "Authorization"],
+                "expose_headers": ["Content-Disposition"],
+                "supports_credentials": True,
+            }
+        },
+    )
 
     db.init_app(app)
     register_blueprints(app)
