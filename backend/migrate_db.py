@@ -1,6 +1,7 @@
 """
 Скрипт для пересоздания базы данных с новой структурой
 """
+import sys
 from app import app
 from extensions import db
 from models import Box
@@ -40,8 +41,11 @@ if __name__ == '__main__':
     print("=" * 50)
     print("\n⚠️  ВНИМАНИЕ: Все данные будут удалены!")
     
-    confirm = input("\nПродолжить? (yes/no): ")
-    if confirm.lower() == 'yes':
+    if '--yes' in sys.argv:
         recreate_database()
     else:
-        print("Операция отменена")
+        confirm = input("\nПродолжить? (yes/no): ")
+        if confirm.lower() == 'yes':
+            recreate_database()
+        else:
+            print("Операция отменена")
