@@ -32,31 +32,35 @@ def create_app(config=None):
     if config:
         app.config.update(config)
 
-    CORS(
-        app,
-        resources={
-            r"/api/*": {
-                "origins": os.getenv("CORS_ORIGINS", "*").split(","),
-                "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-                "allow_headers": ["Content-Type", "Authorization"],
-                "expose_headers": ["Content-Disposition"],
-            }
-        },
-    )
+    # Настройка CORS - упрощённая для надёжности
+    cors_origins = os.getenv("CORS_ORIGINS", "*")
+    if cors_origins == "*":
+        # Разрешаем всё для разработки
+        CORS(app)
+    else:
+        # Убираем пробелы и разбиваем по запятой
+        origins_list = [origin.strip() for origin in cors_origins.split(",")]
+        CORS(
+            app,
+            resources={
+                r"/api/*": {
+                    "origins": origins_list,
+                    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                    "allow_headers": ["Content-Type", "Authorization"],
+                    "expose_headers": ["Content-Disposition"],
+                }
+            },
+        )
 
     db.init_app(app)
     register_blueprints(app)
 
-    return app
-
-
-app = create_app()
-
-if __name__ == "__main__":
+    # Инициализация базы данных (работает и под Gunicorn)
     with app.app_context():
         from models import Box, User
 
         db.create_all()
+
         # Создать боксы по умолчанию, если их нет
         if Box.query.count() == 0:
             default_boxes = [
@@ -67,7 +71,7 @@ if __name__ == "__main__":
             for box in default_boxes:
                 db.session.add(box)
             db.session.commit()
-            print("Созданы боксы по умолчанию")
+            print("✅ Созданы боксы по умолчанию")
 
         # Создать владельца по умолчанию, если его нет
         if not User.query.filter_by(role="owner").first():
@@ -88,5 +92,14 @@ if __name__ == "__main__":
             print(f"   Пароль: {default_owner_password}")
             print("   ⚠️  ОБЯЗАТЕЛЬНО смените пароль после первого входа!")
             print("=" * 60)
+
+    return app
+
+
+app = create_app()
+
+if __name__ == "__main__":
+    # Для Railway и других облачных платформ
+    port = int(os.environ.get("PORT", 5000))
     # use_reloader=False обязателен при использовании ProcessPoolExecutor на Windows
-    app.run(debug=True, port=5000, use_reloader=False)
+    app.run(host='0.0.0.0', port=port, debug=os.getenv("FLASK_ENV") != "production", use_reloader=False)
