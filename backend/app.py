@@ -43,7 +43,7 @@ def create_app(config=None):
         CORS(
             app,
             resources={
-                r"/api/*": {
+                r"/*": {  # Исправлено: /* вместо /api/* (правильное регулярное выражение)
                     "origins": origins_list,
                     "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                     "allow_headers": ["Content-Type", "Authorization"],
