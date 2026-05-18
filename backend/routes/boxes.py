@@ -6,13 +6,13 @@ from models import Box, Settings
 bp = Blueprint("boxes", __name__)
 
 
-@bp.route("/api/boxes", methods=["GET"])
+@bp.route("/boxes", methods=["GET"])
 def get_boxes():
     boxes = Box.query.order_by(Box.order_index).all()
     return jsonify([box.to_dict() for box in boxes])
 
 
-@bp.route("/api/boxes", methods=["POST"])
+@bp.route("/boxes", methods=["POST"])
 def create_box():
     data = request.json
     box = Box(
@@ -25,7 +25,7 @@ def create_box():
     return jsonify(box.to_dict()), 201
 
 
-@bp.route("/api/boxes/<int:id>", methods=["PUT"])
+@bp.route("/boxes/<int:id>", methods=["PUT"])
 def update_box(id):
     box = Box.query.get_or_404(id)
     data = request.json
@@ -36,7 +36,7 @@ def update_box(id):
     return jsonify(box.to_dict())
 
 
-@bp.route("/api/boxes/<int:id>", methods=["DELETE"])
+@bp.route("/boxes/<int:id>", methods=["DELETE"])
 def delete_box(id):
     box = Box.query.get_or_404(id)
     db.session.delete(box)
@@ -44,13 +44,13 @@ def delete_box(id):
     return "", 204
 
 
-@bp.route("/api/settings", methods=["GET"])
+@bp.route("/settings", methods=["GET"])
 def get_settings():
     settings = Settings.query.all()
     return jsonify({s.key: s.value for s in settings})
 
 
-@bp.route("/api/settings", methods=["POST"])
+@bp.route("/settings", methods=["POST"])
 def update_settings():
     data = request.json
     for key, value in data.items():

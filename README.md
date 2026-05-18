@@ -241,3 +241,50 @@ local_tz = pytz.timezone('Europe/Moscow')  # Ваш часовой пояс
 ---
 
 **Нужна помощь?** Читайте [КАК_ЗАПУСТИТЬ.md](КАК_ЗАПУСТИТЬ.md) для подробных инструкций!
+
+
+## ☁️ Деплой на Vercel
+
+Проект настроен для деплоя **всего приложения** (фронтенд + бэкенд) на Vercel.
+
+### Быстрый деплой
+
+1. **Подключите репозиторий к Vercel**
+   - Зайдите на https://vercel.com/new
+   - Выберите ваш Git репозиторий
+   - Root Directory: `CRM_car_wash_API`
+   - Нажмите Deploy
+
+2. **Настройте переменные окружения**
+   
+   В Vercel Dashboard → Settings → Environment Variables:
+   ```
+   POSTGRES_URL=postgresql://user:pass@host:5432/db
+   JWT_SECRET=your-super-secret-key-min-32-chars
+   DEFAULT_OWNER_LOGIN=owner
+   DEFAULT_OWNER_PASSWORD=secure-password-123
+   ```
+
+3. **Инициализируйте БД**
+   
+   После деплоя откройте: `https://your-app.vercel.app/api/init-db`
+
+4. **Готово!**
+   
+   Откройте `https://your-app.vercel.app` и войдите с логином владельца.
+
+### Подробная документация
+
+- **[VERCEL_QUICK_START.md](VERCEL_QUICK_START.md)** - Быстрый старт за 5 минут
+- **[VERCEL_DEPLOY_GUIDE.md](VERCEL_DEPLOY_GUIDE.md)** - Полное руководство по деплою
+- **[VERCEL_CHANGES_SUMMARY.md](VERCEL_CHANGES_SUMMARY.md)** - Резюме всех изменений
+
+### Что было исправлено для Vercel
+
+✅ Исправлены префиксы API роутов (`/api/*`)  
+✅ Создана структура для Vercel Serverless Functions  
+✅ Настроен фронтенд для работы с API на том же домене  
+✅ Добавлен эндпоинт для инициализации БД  
+✅ Создана полная документация по деплою  
+
+**Важно**: После инициализации БД удалите эндпоинт `/api/init-db` из `backend/app.py` для безопасности!

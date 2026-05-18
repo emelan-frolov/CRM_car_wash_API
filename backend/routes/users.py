@@ -7,7 +7,7 @@ from models import AdminSchedule, Employee, User
 bp = Blueprint("users", __name__)
 
 
-@bp.route("/api/auth/users", methods=["GET"])
+@bp.route("/auth/users", methods=["GET"])
 @owner_required
 def list_users():
     """Список всех пользователей (только для владельца)."""
@@ -15,7 +15,7 @@ def list_users():
     return jsonify([u.to_dict() for u in users])
 
 
-@bp.route("/api/auth/users", methods=["POST"])
+@bp.route("/auth/users", methods=["POST"])
 @owner_required
 def create_user():
     """Создать нового администратора (только владелец).
@@ -100,7 +100,7 @@ def create_user():
     return jsonify(user.to_dict()), 201
 
 
-@bp.route("/api/auth/eligible-employees", methods=["GET"])
+@bp.route("/auth/eligible-employees", methods=["GET"])
 @owner_required
 def list_eligible_employees():
     """Список сотрудников, которые могут стать админами.
@@ -142,7 +142,7 @@ def list_eligible_employees():
     return jsonify(result)
 
 
-@bp.route("/api/auth/users/<int:user_id>", methods=["DELETE"])
+@bp.route("/auth/users/<int:user_id>", methods=["DELETE"])
 @owner_required
 def delete_user(user_id):
     """Удалить администратора (только владелец, нельзя удалить владельца и себя).
@@ -165,7 +165,7 @@ def delete_user(user_id):
     return "", 204
 
 
-@bp.route("/api/auth/users/<int:user_id>/toggle-active", methods=["POST"])
+@bp.route("/auth/users/<int:user_id>/toggle-active", methods=["POST"])
 @owner_required
 def toggle_user_active(user_id):
     """Активировать/деактивировать администратора."""
@@ -182,7 +182,7 @@ def toggle_user_active(user_id):
     return jsonify(user.to_dict())
 
 
-@bp.route("/api/auth/users/<int:user_id>/reset-password", methods=["POST"])
+@bp.route("/auth/users/<int:user_id>/reset-password", methods=["POST"])
 @owner_required
 def reset_user_password(user_id):
     """Сменить пароль пользователя (только владелец)."""
@@ -198,7 +198,7 @@ def reset_user_password(user_id):
     return jsonify({"ok": True})
 
 
-@bp.route("/api/auth/users/<int:user_id>/permissions", methods=["PUT"])
+@bp.route("/auth/users/<int:user_id>/permissions", methods=["PUT"])
 @owner_required
 def update_user_permissions(user_id):
     """Обновить права администратора (только владелец)."""

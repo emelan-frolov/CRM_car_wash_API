@@ -15,7 +15,7 @@ from models import AdminSchedule, Employee, User
 bp = Blueprint("auth", __name__)
 
 
-@bp.route("/api/auth/login", methods=["POST"])
+@bp.route("/auth/login", methods=["POST"])
 def auth_login():
     """Вход в систему. Возвращает JWT-токен и данные пользователя.
 
@@ -51,14 +51,14 @@ def auth_login():
     return jsonify({"token": token, "user": user.to_dict()})
 
 
-@bp.route("/api/auth/me", methods=["GET"])
+@bp.route("/auth/me", methods=["GET"])
 @login_required
 def auth_me():
     """Получить данные текущего пользователя по токену."""
     return jsonify(request.current_user.to_dict())
 
 
-@bp.route("/api/auth/admins-list", methods=["GET"])
+@bp.route("/auth/admins-list", methods=["GET"])
 @permission_required("can_view_admin_schedule")
 def list_admins_for_schedule():
     """Список активных админов для отображения в расписании смен.
@@ -81,7 +81,7 @@ def list_admins_for_schedule():
     )
 
 
-@bp.route("/api/auth/change-password", methods=["POST"])
+@bp.route("/auth/change-password", methods=["POST"])
 @login_required
 def change_own_password():
     """Смена своего пароля любым авторизованным пользователем (включая владельца)."""

@@ -8,7 +8,7 @@ from models import AdminSchedule, BoxSchedule, Employee, Position, User
 bp = Blueprint("employees", __name__)
 
 
-@bp.route("/api/employees", methods=["GET"])
+@bp.route("/employees", methods=["GET"])
 def get_employees():
     page = request.args.get("page", type=int)
     page_size = request.args.get("page_size", type=int)
@@ -52,7 +52,7 @@ def get_employees():
     )
 
 
-@bp.route("/api/employees", methods=["POST"])
+@bp.route("/employees", methods=["POST"])
 def create_employee():
     data = request.json
 
@@ -85,7 +85,7 @@ def create_employee():
     return jsonify(employee.to_dict()), 201
 
 
-@bp.route("/api/employees/<int:id>", methods=["PUT"])
+@bp.route("/employees/<int:id>", methods=["PUT"])
 def update_employee(id):
     employee = Employee.query.get_or_404(id)
     data = request.json
@@ -176,7 +176,7 @@ def update_employee(id):
     return jsonify(response)
 
 
-@bp.route("/api/employees/<int:id>", methods=["DELETE"])
+@bp.route("/employees/<int:id>", methods=["DELETE"])
 def delete_employee(id):
     employee = Employee.query.get_or_404(id)
 
@@ -193,7 +193,7 @@ def delete_employee(id):
     return "", 204
 
 
-@bp.route("/api/employees/<int:id>/fire", methods=["POST"])
+@bp.route("/employees/<int:id>/fire", methods=["POST"])
 def fire_employee(id):
     """Уволить сотрудника"""
     employee = Employee.query.get_or_404(id)
@@ -260,7 +260,7 @@ def fire_employee(id):
     return jsonify({"message": " ".join(msg_parts), "employee": employee.to_dict()})
 
 
-@bp.route("/api/employees/<int:id>/sick-leave", methods=["POST"])
+@bp.route("/employees/<int:id>/sick-leave", methods=["POST"])
 def set_sick_leave(id):
     """Отправить сотрудника на больничный"""
     employee = Employee.query.get_or_404(id)
@@ -319,7 +319,7 @@ def set_sick_leave(id):
     return jsonify({"message": " ".join(msg_parts), "employee": employee.to_dict()})
 
 
-@bp.route("/api/employees/<int:id>/activate", methods=["POST"])
+@bp.route("/employees/<int:id>/activate", methods=["POST"])
 def activate_employee(id):
     """Вернуть сотрудника к работе."""
     employee = Employee.query.get_or_404(id)

@@ -18,4 +18,4 @@ def register_blueprints(app):
     for blueprint in [auth_bp, users_bp, clients_bp, cars_bp, services_bp,
                       boxes_bp, positions_bp, employees_bp, orders_bp,
                       schedule_bp, statistics_bp, public_bp, exports_bp, health_bp]:
-        app.register_blueprint(blueprint)
+        app.register_blueprint(blueprint, url_prefix='/api')

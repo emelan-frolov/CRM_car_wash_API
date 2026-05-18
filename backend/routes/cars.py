@@ -6,7 +6,7 @@ from models import Car
 bp = Blueprint("cars", __name__)
 
 
-@bp.route("/api/cars", methods=["GET"])
+@bp.route("/cars", methods=["GET"])
 def get_cars():
     page = request.args.get("page", type=int)
     page_size = request.args.get("page_size", type=int)
@@ -48,7 +48,7 @@ def get_cars():
     )
 
 
-@bp.route("/api/cars/search", methods=["GET"])
+@bp.route("/cars/search", methods=["GET"])
 def search_car():
     license_plate = request.args.get("license_plate")
     if not license_plate:
@@ -62,7 +62,7 @@ def search_car():
     return jsonify({"found": False}), 404
 
 
-@bp.route("/api/cars", methods=["POST"])
+@bp.route("/cars", methods=["POST"])
 def create_car():
     data = request.json
 
@@ -109,7 +109,7 @@ def create_car():
         return jsonify({"error": f"Ошибка создания автомобиля: {str(e)}"}), 500
 
 
-@bp.route("/api/cars/<int:id>", methods=["PUT"])
+@bp.route("/cars/<int:id>", methods=["PUT"])
 def update_car(id):
     car = Car.query.get_or_404(id)
     data = request.json
@@ -134,7 +134,7 @@ def update_car(id):
     return jsonify(car.to_dict())
 
 
-@bp.route("/api/cars/<int:id>", methods=["DELETE"])
+@bp.route("/cars/<int:id>", methods=["DELETE"])
 def delete_car(id):
     car = Car.query.get_or_404(id)
     car.is_active = False

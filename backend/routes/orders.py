@@ -8,7 +8,7 @@ from models import Box, BoxSchedule, Order, OrderService, Service
 bp = Blueprint("orders", __name__)
 
 
-@bp.route("/api/orders", methods=["GET"])
+@bp.route("/orders", methods=["GET"])
 def get_orders():
     page = request.args.get("page", type=int)
     page_size = request.args.get("page_size", type=int)
@@ -61,7 +61,7 @@ def get_orders():
     )
 
 
-@bp.route("/api/orders/schedule", methods=["GET"])
+@bp.route("/orders/schedule", methods=["GET"])
 def get_schedule():
     """Получить заказы для расписания (окно 6 часов: -2/+4 от текущего, в пределах 10:00–22:00)"""
     from sqlalchemy.orm import joinedload
@@ -118,7 +118,7 @@ def get_schedule():
     return jsonify([order.to_dict() for order in filtered])
 
 
-@bp.route("/api/orders", methods=["POST"])
+@bp.route("/orders", methods=["POST"])
 def create_order():
     data = request.json
 
@@ -215,7 +215,7 @@ def create_order():
     return jsonify(order.to_dict()), 201
 
 
-@bp.route("/api/orders/<int:id>", methods=["PUT"])
+@bp.route("/orders/<int:id>", methods=["PUT"])
 def update_order(id):
     order = Order.query.get_or_404(id)
     data = request.json
@@ -229,7 +229,7 @@ def update_order(id):
     return jsonify(order.to_dict())
 
 
-@bp.route("/api/orders/<int:id>", methods=["DELETE"])
+@bp.route("/orders/<int:id>", methods=["DELETE"])
 def delete_order(id):
     order = Order.query.get_or_404(id)
     db.session.delete(order)
@@ -237,7 +237,7 @@ def delete_order(id):
     return "", 204
 
 
-@bp.route("/api/orders/available-slots-today", methods=["POST"])
+@bp.route("/orders/available-slots-today", methods=["POST"])
 def get_available_slots_today():
     """Получить ближайшие доступные слоты для каждого бокса на сегодня"""
     data = request.json

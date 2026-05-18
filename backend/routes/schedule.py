@@ -9,7 +9,7 @@ from models import AdminSchedule, Box, BoxSchedule, Employee, Order, User
 bp = Blueprint("schedule", __name__)
 
 
-@bp.route("/api/admin-schedules", methods=["GET"])
+@bp.route("/admin-schedules", methods=["GET"])
 @permission_required("can_view_admin_schedule")
 def list_admin_schedules():
     """Получить расписание админов на период (по умолчанию - текущая неделя)."""
@@ -38,7 +38,7 @@ def list_admin_schedules():
     return jsonify([s.to_dict() for s in schedules])
 
 
-@bp.route("/api/admin-schedules", methods=["POST"])
+@bp.route("/admin-schedules", methods=["POST"])
 @permission_required("can_view_admin_schedule")
 def create_admin_schedule():
     """Назначить смену админу. Проверяет пересечения с другими сменами в это же время."""
@@ -149,7 +149,7 @@ def create_admin_schedule():
     return jsonify(schedule.to_dict()), 201
 
 
-@bp.route("/api/admin-schedules/<int:schedule_id>", methods=["DELETE"])
+@bp.route("/admin-schedules/<int:schedule_id>", methods=["DELETE"])
 @permission_required("can_view_admin_schedule")
 def delete_admin_schedule(schedule_id):
     """Удалить смену админа."""
@@ -179,7 +179,7 @@ def delete_admin_schedule(schedule_id):
     return "", 204
 
 
-@bp.route("/api/admin-schedules/<int:schedule_id>", methods=["PUT"])
+@bp.route("/admin-schedules/<int:schedule_id>", methods=["PUT"])
 @permission_required("can_view_admin_schedule")
 def update_admin_schedule(schedule_id):
     """Изменить смену админа."""
@@ -294,7 +294,7 @@ def update_admin_schedule(schedule_id):
     return jsonify(schedule.to_dict())
 
 
-@bp.route("/api/admin-schedules/current", methods=["GET"])
+@bp.route("/admin-schedules/current", methods=["GET"])
 @login_required
 def get_current_shift():
     """Получить текущую активную смену для авторизованного пользователя."""
@@ -306,7 +306,7 @@ def get_current_shift():
     return jsonify(check)
 
 
-@bp.route("/api/box-schedules", methods=["GET"])
+@bp.route("/box-schedules", methods=["GET"])
 def get_box_schedules():
     """Получить расписание назначений на период"""
     start_date_str = request.args.get("start_date")
@@ -329,7 +329,7 @@ def get_box_schedules():
     return jsonify([schedule.to_dict() for schedule in schedules])
 
 
-@bp.route("/api/box-schedules", methods=["POST"])
+@bp.route("/box-schedules", methods=["POST"])
 def create_box_schedule():
     """Назначить сотрудника на бокс на определенную дату с временным промежутком"""
     data = request.json
@@ -419,7 +419,7 @@ def create_box_schedule():
     return jsonify(schedule.to_dict()), 201
 
 
-@bp.route("/api/box-schedules/<int:id>", methods=["DELETE"])
+@bp.route("/box-schedules/<int:id>", methods=["DELETE"])
 def delete_box_schedule(id):
     """Удалить назначение сотрудника"""
     schedule = BoxSchedule.query.get_or_404(id)
@@ -469,7 +469,7 @@ def _update_orders_employees(box_id, date):
     db.session.commit()
 
 
-@bp.route("/api/box-schedules/day", methods=["POST"])
+@bp.route("/box-schedules/day", methods=["POST"])
 def create_day_schedules():
     """Создать несколько смен для одного бокса на один день"""
     try:
@@ -599,7 +599,7 @@ def create_day_schedules():
         return jsonify({"error": str(e)}), 500
 
 
-@bp.route("/api/box-schedules/bulk", methods=["POST"])
+@bp.route("/box-schedules/bulk", methods=["POST"])
 def bulk_create_box_schedules():
     """Массовое назначение сотрудника на несколько дат"""
     try:
@@ -713,7 +713,7 @@ def bulk_create_box_schedules():
         return jsonify({"error": str(e)}), 500
 
 
-@bp.route("/api/booking/availability", methods=["GET"])
+@bp.route("/booking/availability", methods=["GET"])
 def get_booking_availability():
     """Получить загруженность по дням для календаря записи"""
     start_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
@@ -795,7 +795,7 @@ def get_booking_availability():
     return jsonify(result)
 
 
-@bp.route("/api/booking/timeslots", methods=["POST"])
+@bp.route("/booking/timeslots", methods=["POST"])
 def get_available_timeslots():
     """Получить доступные временные слоты для конкретной даты и длительности услуг"""
     data = request.json

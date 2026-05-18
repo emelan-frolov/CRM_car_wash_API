@@ -32,7 +32,7 @@ def _parse_period():
     return start_dt, end_dt
 
 
-@bp.route("/api/stats/finance", methods=["GET"])
+@bp.route("/stats/finance", methods=["GET"])
 @permission_required("can_view_statistics")
 def stats_finance():
     """Финансовые показатели."""
@@ -123,7 +123,7 @@ def stats_finance():
     )
 
 
-@bp.route("/api/stats/employees", methods=["GET"])
+@bp.route("/stats/employees", methods=["GET"])
 @permission_required("can_view_statistics")
 def stats_employees():
     """HR-аналитика."""
@@ -237,7 +237,7 @@ def stats_employees():
     )
 
 
-@bp.route("/api/stats/boxes", methods=["GET"])
+@bp.route("/stats/boxes", methods=["GET"])
 @permission_required("can_view_statistics")
 def stats_boxes():
     """Операционная эффективность."""

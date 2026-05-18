@@ -10,7 +10,7 @@ from models import Box, BoxSchedule, Car, Client, Order, OrderService, Service
 bp = Blueprint("public", __name__)
 
 
-@bp.route("/api/public/current-occupancy", methods=["GET"])
+@bp.route("/public/current-occupancy", methods=["GET"])
 def public_current_occupancy():
     """Текущая занятость боксов — публичный эндпоинт для клиентов."""
     today = datetime.now().date()
@@ -77,7 +77,7 @@ def public_current_occupancy():
     return jsonify(result)
 
 
-@bp.route("/api/public/book", methods=["POST"])
+@bp.route("/public/book", methods=["POST"])
 def public_book():
     """Создать запись от клиента — публичный эндпоинт."""
     data = request.json or {}

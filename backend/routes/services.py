@@ -21,7 +21,7 @@ def _record_service_price_history(service, old_price=None, old_washer_percentage
     )
 
 
-@bp.route("/api/services", methods=["GET"])
+@bp.route("/services", methods=["GET"])
 def get_services():
     page = request.args.get("page", type=int)
     page_size = request.args.get("page_size", type=int)
@@ -54,7 +54,7 @@ def get_services():
     )
 
 
-@bp.route("/api/services", methods=["POST"])
+@bp.route("/services", methods=["POST"])
 def create_service():
     data = request.json
     service = Service(
@@ -71,7 +71,7 @@ def create_service():
     return jsonify(service.to_dict()), 201
 
 
-@bp.route("/api/services/<int:id>", methods=["PUT"])
+@bp.route("/services/<int:id>", methods=["PUT"])
 def update_service(id):
     service = Service.query.get_or_404(id)
     data = request.json
@@ -100,7 +100,7 @@ def update_service(id):
     return jsonify(service.to_dict())
 
 
-@bp.route("/api/services/<int:id>", methods=["DELETE", "OPTIONS"])
+@bp.route("/services/<int:id>", methods=["DELETE", "OPTIONS"])
 def delete_service(id):
     # Обработка preflight запроса
     if request.method == "OPTIONS":

@@ -6,7 +6,7 @@ from models import Client
 bp = Blueprint("clients", __name__)
 
 
-@bp.route("/api/clients", methods=["GET"])
+@bp.route("/clients", methods=["GET"])
 def get_clients():
     page = request.args.get("page", type=int)
     page_size = request.args.get("page_size", type=int)
@@ -52,7 +52,7 @@ def get_clients():
     )
 
 
-@bp.route("/api/clients/search", methods=["GET"])
+@bp.route("/clients/search", methods=["GET"])
 def search_client():
     phone = request.args.get("phone")
     if not phone:
@@ -64,7 +64,7 @@ def search_client():
     return jsonify({"found": False}), 404
 
 
-@bp.route("/api/clients", methods=["POST"])
+@bp.route("/clients", methods=["POST"])
 def create_client():
     data = request.json
 
@@ -106,7 +106,7 @@ def create_client():
         return jsonify({"error": f"Ошибка создания клиента: {str(e)}"}), 500
 
 
-@bp.route("/api/clients/<int:id>", methods=["PUT"])
+@bp.route("/clients/<int:id>", methods=["PUT"])
 def update_client(id):
     client = Client.query.get_or_404(id)
     data = request.json
@@ -119,7 +119,7 @@ def update_client(id):
     return jsonify(client.to_dict())
 
 
-@bp.route("/api/clients/<int:id>", methods=["DELETE"])
+@bp.route("/clients/<int:id>", methods=["DELETE"])
 def delete_client(id):
     client = Client.query.get_or_404(id)
     client.is_active = False

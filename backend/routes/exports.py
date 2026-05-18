@@ -150,7 +150,7 @@ def _run_export_job(job_id, orders_data):
         _active_futures.pop(job_id, None)
 
 
-@bp.route("/api/orders/export/start", methods=["POST"])
+@bp.route("/orders/export/start", methods=["POST"])
 def start_export():
     """Запускает фоновый экспорт. Возвращает job_id для отслеживания."""
     _cleanup_old_jobs()
@@ -204,7 +204,7 @@ def start_export():
     return jsonify({"job_id": job_id, "total": len(orders_data), "filename": filename})
 
 
-@bp.route("/api/orders/export/status/<job_id>", methods=["GET"])
+@bp.route("/orders/export/status/<job_id>", methods=["GET"])
 def export_status(job_id):
     """Возвращает текущий статус экспорта."""
     job = _get_job(job_id)
@@ -223,7 +223,7 @@ def export_status(job_id):
     )
 
 
-@bp.route("/api/orders/export/download/<job_id>", methods=["GET"])
+@bp.route("/orders/export/download/<job_id>", methods=["GET"])
 def export_download(job_id):
     """Скачивает готовый файл."""
     job = _get_job(job_id)
@@ -252,7 +252,7 @@ def export_download(job_id):
     )
 
 
-@bp.route("/api/orders/export/cancel/<job_id>", methods=["POST"])
+@bp.route("/orders/export/cancel/<job_id>", methods=["POST"])
 def export_cancel(job_id):
     """Отменяет экспорт."""
     job = _get_job(job_id)
@@ -275,7 +275,7 @@ def export_cancel(job_id):
     return jsonify({"ok": True})
 
 
-@bp.route("/api/orders/export", methods=["GET"])
+@bp.route("/orders/export", methods=["GET"])
 def export_orders():
     """Экспорт заказов в Excel (синхронный, для совместимости)."""
     start_date_str = request.args.get("start_date")

@@ -1,0 +1,43 @@
+# Python
+backend/__pycache__/
+backend/*.pyc
+backend/.pytest_cache/
+backend/.hypothesis/
+backend/venv/
+backend/.venv/
+backend/*.egg-info/
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Environment
+backend/.env
+frontend/.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+backend/exports/*.xlsx
+backend/exports/_jobs.json
+
+# Tests
+backend/test_api.py
+backend/tests/
+
+# Documentation (опционально, можно оставить)
+# *.md
+
+# Git
+.git/
+.gitignore
